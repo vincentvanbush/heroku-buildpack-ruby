@@ -19,8 +19,12 @@ class LanguagePack::Installers::HerokuRubyInstaller
         ruby_vm = "ruby"
         file.sub!(ruby_vm, "#{ruby_vm}-build")
       end
-      @fetcher.fetch_untar(file)
+      if ruby_version.ruby_version == '1.8.7'
+        puts '*** RUBY 1.8.7 DETECTED ***'
+        @fetcher.fetch_untar_absolute('https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7.tgz')
+      else
+        @fetcher.fetch_untar(file)
+      end
     end
   end
 end
-

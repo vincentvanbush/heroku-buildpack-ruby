@@ -26,6 +26,13 @@ module LanguagePack
         max_attempts: 3
     end
 
+    def fetch_untar_absolute(path, files_to_extract = nil)
+      curl = curl_command("#{path} -s -o")
+      run! "#{curl} - | tar zxf - #{files_to_extract}",
+        error_class: FetchError,
+        max_attempts: 3
+    end
+
     def fetch_bunzip2(path, files_to_extract = nil)
       curl = curl_command("#{@host_url.join(path)} -s -o")
       run!("#{curl} - | tar jxf - #{files_to_extract}", error_class: FetchError)
